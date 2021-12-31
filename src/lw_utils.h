@@ -1,6 +1,6 @@
 // Copyright 2021 <lwolmer>
-#ifndef SRC_COMMON_LW_UTILS_H_
-#define SRC_COMMON_LW_UTILS_H_
+#ifndef SRC_LW_UTILS_H_
+#define SRC_LW_UTILS_H_
 #include <stdbool.h>
 #include <stdio.h>
 #if defined(__linux__)
@@ -128,4 +128,4 @@ dynamic_string *DS_set_char(dynamic_string *dest, const char src, const size_t p
 
 dynamic_string *multiply_strings(dynamic_string *result_str, const char *str1, const char *str2);
 
-#endif  // SRC_COMMON_LW_UTILS_H_
+#endif  // SRC_LW_UTILS_H_
