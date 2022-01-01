@@ -210,8 +210,8 @@ dynamic_string *multiply_string_by_digit(dynamic_string *result, const char *str
     @param str2 Second string containing number
     @param len2 Length of the str2
     @param offset Starts adding str2 to str1 from this postion from the right
-    @param using_reversed if true then result will be returned in reverse order
-    @return dynamic_string* : result of addition that is reversed if keep_reversed set to true
+    @param using_reversed if true then string must be in reverse order and result will be returned in reverse order
+    @return dynamic_string* : result of addition that is reversed if using_reversed set to true
  */
 dynamic_string *sum_strings(dynamic_string *result, const char *str1, const size_t len1,
                             const char *str2, const size_t len2, size_t offset, bool using_reversed);
