@@ -206,15 +206,18 @@ long clamp_long(long d, long min, long max) {
 
 bool is_number(const char *str) {
     bool error = 0;
+    size_t index = 0;
     while (str && *str && !error) {
-        if (!isdigit(*str))
-            error = 1;
+        if (!isdigit(*str)) {
+            if (!(index == 0 && (*str == '-' || *str == '+')))
+                error = 1;
+        }
         str++;
     }
     return !error;
 }
 
-void reverse_str(char *str) {
+void str_reverse(char *str) {
     size_t len = strlen(str);
     for (size_t i = 0; i < len / 2; i++) {
         char t = str[i];
@@ -283,19 +286,32 @@ dynamic_string *DS_insert_char(dynamic_string *dest, const char src, const size_
     return dest;
 }
 
+dynamic_string *DS_append_char(dynamic_string *dest, const char src) {
+    return DS_set_char(dest, src, dest->length);
+}
+
 dynamic_string *DS_set_char(dynamic_string *dest, const char src, const size_t pos) {
     if (dest) {
+        // Trying to put char inside string
         if (pos < dest->length) {
             dest->string[pos] = src;
+            if (src == 0)
+                dest->length = pos;
+        // Trying to put char at end of the string and have enough memory
         } else if (pos == dest->length && dest->length < dest->mem_size - 1) {
-            dest->string[pos] = src;
-            dest->length++;
-        } else if (pos == dest->length && dest->length == dest->mem_size - 1) {
-            dest = DS_realloc(dest, dest->mem_size + sizeof(char));
-            if (dest) {
+            if (!(src == 0 && dest->string[pos] == 0)) {
                 dest->string[pos] = src;
                 dest->length++;
-                dest->string[dest->length] = 0;
+            }
+        // Trying to put char at end of the string and need to allocate more memory
+        } else if (pos == dest->length && dest->length == dest->mem_size - 1) {
+            if (!(src == 0 && dest->string[pos] == 0)) {
+                dest = DS_realloc(dest, dest->mem_size + sizeof(char));
+                if (dest) {
+                    dest->string[pos] = src;
+                    dest->length++;
+                    dest->string[dest->length] = 0;
+                }
             }
         } else if (pos > dest->length) {
             fprintf(stderr, "ERROR (dynamic_string):[%s][%zu] trying to set character '%c'" \
@@ -305,41 +321,98 @@ dynamic_string *DS_set_char(dynamic_string *dest, const char src, const size_t p
     return dest;
 }
 
-dynamic_string *multiply_string_by_digit(dynamic_string *result, const char *str1, const size_t len,
-                                const size_t digit, bool keep_reversed) {
-    if (digit <= 9) {
+
+dynamic_string *multiply_string_by_digit(dynamic_string *result, const char *str1, const size_t len, \
+                                int digit, bool keep_reversed) {
+    if (digit <= 9 && digit >= -9) {
+        if (digit == 0) {
+            result = DS_set_text(result, "0");
+            return result;
+        }
+        result = DS_set_text(result, "");
+        bool is_negative = digit >= -9 && digit < 0;
+        if (is_negative)
+            digit *= -1;
         int carryover = 0;
-        for (int j = len - 1; j >= 0; j--) {
+        for (int j = len - 1; j >= 0 && isdigit(str1[j]); j--) {
             int index_j = len - 1 - j;
             int d = (str1[j] - '0') * digit + carryover;
             result = DS_set_char(result, d % 10 + '0', index_j);
             carryover = d / 10;
         }
         if (carryover)
-            result = DS_set_char(result, carryover + '0', len);
+            result = DS_set_char(result, carryover + '0', result->length);
+        if (str1[0] == '-') {
+            if (is_negative)
+                is_negative = false;
+            else
+                is_negative = true;
+        }
+        if (is_negative)
+            DS_set_char(result, '-', result->length);
     } else {
-        fprintf(stderr, "ERROR (multiply_string): digit must be in range (0-9)\n");
+        fprintf(stderr, "ERROR (multiply_string): digit must be in range (-9 - 9)\n");
         errno = EINVAL;
     }
     if (!keep_reversed)
-        reverse_str(result->string);
+        str_reverse(result->string);
+
     return result;
 }
 
 dynamic_string *sum_strings(dynamic_string *result, const char *str1, const size_t len1,
-                            const char *str2, const size_t len2, const size_t offset) {
-    int carryover = 0;
-    for (int j = len2 - 1; j >= 0; j--) {
-        int index = len2 - 1 - j;
-        int d = (str2[index] - '0') + carryover;
-        if (index + offset < len1) {
-            d += str1[index + offset] - '0';
-        }
-        result = DS_set_char(result, d % 10 + '0', index + offset);
-        carryover = d / 10;
+                    const char *str2, const size_t len2, size_t offset, bool using_reversed) {
+    if (offset > len1 - 1) {
+        fprintf(stderr, "ERROR (sum_strings): offset cant be more than str1 lenght.\n");
+        return result;
     }
-    if (carryover)
-        result = DS_set_char(result, carryover + '0', len2 + offset);
+    char *buf1 = malloc(len1 + 1);
+    char *buf2 = malloc(len2 + 1);
+    if (!buf1 || !buf2) {
+        fprintf(stderr, "ERROR (sum_strings): error during malloc\n");
+        return result;
+    }
+    buf1 = strncpy(buf1, str1, len1 + 1);
+    buf2 = strncpy(buf2, str2, len2 + 1);
+    if (!using_reversed) {
+        str_reverse(buf1);
+        str_reverse(buf2);
+    }
+    size_t index = 0;
+    int carryover = 0;
+    char *str1_p = buf1;
+    char *str2_p = buf2;
+    while (*str1_p || *str2_p) {
+        if (offset) {
+            DS_set_char(result, *str1_p, index);
+            index++;
+            str1_p++;
+            offset--;
+        } else {
+            int d = carryover;
+            if (*str1_p) {
+                d += *str1_p - '0';
+                str1_p++;
+            }
+            if (*str2_p) {
+                d += *str2_p - '0';
+                str2_p++;
+            }
+            result = DS_set_char(result, d % 10 + '0', index);
+            carryover = d / 10;
+            index++;
+        }
+    }
+    if (carryover) {
+        result = DS_set_char(result, carryover + '0', index);
+        index++;
+    }
+    result = DS_set_char(result, 0, index);
+    if (!using_reversed) {
+        str_reverse(result->string);
+    }
+    free(buf1);
+    free(buf2);
     return result;
 }
 
@@ -358,7 +431,7 @@ dynamic_string *sum_multi_rows(dynamic_string *result_str, dynamic_string **buff
     result_str = DS_set_text(result_str, buffers[0]->string);
     for (size_t i = 1; i < buf_size; i++) {
         sum_strings(result_str, result_str->string, result_str->length,
-                             buffers[i]->string, buffers[i]->length, i);
+                             buffers[i]->string, buffers[i]->length, i, true);
     }
     return result_str;
 }
@@ -377,7 +450,7 @@ dynamic_string *multiply_strings(dynamic_string *result_str, const char *str1, c
     if (result_str->string[0] == '0')
         DS_set_text(result_str, "0");
     else
-        reverse_str(result_str->string);
+        str_reverse(result_str->string);
     for (size_t i = 0; i < len2; i++)
         DS_free(buffers[i]);
     free(buffers);

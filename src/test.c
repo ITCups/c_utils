@@ -97,6 +97,36 @@ START_TEST(multiply_strings_default) {
 }
 END_TEST
 
+START_TEST(multiply_string_by_digit_default) {
+    dynamic_string *str = DS_init(NULL);
+    multiply_string_by_digit(str, "123456789", 9, 9, false);
+    check_DS(str, "1111111101");
+    multiply_string_by_digit(str, "123456789", 9, -9, false);
+    check_DS(str, "-1111111101");
+    multiply_string_by_digit(str, "-123456789", 10, 9, false);
+    check_DS(str, "-1111111101");
+    multiply_string_by_digit(str, "123456789", 9, 0, false);
+    check_DS(str, "0");
+    DS_free(str);
+}
+END_TEST
+
+START_TEST(sum_strings_default) {
+    dynamic_string *str = DS_init(NULL);
+    sum_strings(str, "10", 2, "1", 1, 0, false);
+    check_DS(str, "11");
+    sum_strings(str, "1000", 4, "1", 1, 1, false);
+    check_DS(str, "1010");
+    sum_strings(str, "99999999999999999999999", 23, "99999999999999999999999", 23, 0, false);
+    check_DS(str, "199999999999999999999998");
+    sum_strings(str, "10", 2, "0", 1, 0, false);
+    check_DS(str, "10");
+    sum_strings(str, "10", 2, "0", 1, 1, false);
+    check_DS(str, "10");
+    DS_free(str);
+}
+END_TEST
+
 
 // Функция создания набора тестов.
 Suite *s21_string_suite(void) {
@@ -107,6 +137,9 @@ Suite *s21_string_suite(void) {
 
     TCase *STRMULT = tcase_create("String multiplication");
     tcase_add_test(STRMULT, multiply_strings_default);
+    tcase_add_test(STRMULT, multiply_string_by_digit_default);
+    TCase *STRSUM = tcase_create("String additions");
+    tcase_add_test(STRSUM, sum_strings_default);
     TCase *DYNSTR = tcase_create("Dynamic string");
     tcase_add_test(DYNSTR, dynamic_string_init_default);
     tcase_add_test(DYNSTR, dynamic_string_set_char_default);
@@ -118,7 +151,9 @@ Suite *s21_string_suite(void) {
     // Добавление теста в тестовый набор.
     suite_add_tcase(suite, LST);
     suite_add_tcase(suite, STRMULT);
+    suite_add_tcase(suite, STRSUM);
     suite_add_tcase(suite, DYNSTR);
+
     return suite;
 }
 
