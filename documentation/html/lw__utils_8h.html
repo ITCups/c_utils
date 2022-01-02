@@ -159,6 +159,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>list_free</b> (<a cla
 <tr class="memitem:aad6dc4600825c2e980c5f5dd74cd489e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdynamic__string.html">dynamic_string</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lw__utils_8h.html#aad6dc4600825c2e980c5f5dd74cd489e">DS_append_char</a> (<a class="el" href="structdynamic__string.html">dynamic_string</a> *dest, const char src)</td></tr>
 <tr class="memdesc:aad6dc4600825c2e980c5f5dd74cd489e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends char at the end of dynamic string.  <a href="lw__utils_8h.html#aad6dc4600825c2e980c5f5dd74cd489e">More...</a><br /></td></tr>
 <tr class="separator:aad6dc4600825c2e980c5f5dd74cd489e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63ecdf36bb3b51b350d98697306dac98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdynamic__string.html">dynamic_string</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lw__utils_8h.html#a63ecdf36bb3b51b350d98697306dac98">DS_insert_char</a> (<a class="el" href="structdynamic__string.html">dynamic_string</a> *dest, const char src, const size_t pos)</td></tr>
+<tr class="memdesc:a63ecdf36bb3b51b350d98697306dac98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts char into dynamic string.  <a href="lw__utils_8h.html#a63ecdf36bb3b51b350d98697306dac98">More...</a><br /></td></tr>
+<tr class="separator:a63ecdf36bb3b51b350d98697306dac98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26873e98953ff237f00e069a78a8e232"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structdynamic__string.html">dynamic_string</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lw__utils_8h.html#a26873e98953ff237f00e069a78a8e232">multiply_strings</a> (<a class="el" href="structdynamic__string.html">dynamic_string</a> *result_str, const char *str1, const char *str2)</td></tr>
 <tr class="memdesc:a26873e98953ff237f00e069a78a8e232"><td class="mdescLeft">&#160;</td><td class="mdescRight">Miltiplies two strings and returns result as dynamic string.  <a href="lw__utils_8h.html#a26873e98953ff237f00e069a78a8e232">More...</a><br /></td></tr>
 <tr class="separator:a26873e98953ff237f00e069a78a8e232"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -324,6 +327,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>list_free</b> (<a cla
 
 </div>
 </div>
+<a id="a63ecdf36bb3b51b350d98697306dac98" name="a63ecdf36bb3b51b350d98697306dac98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63ecdf36bb3b51b350d98697306dac98">&#9670;&nbsp;</a></span>DS_insert_char()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structdynamic__string.html">dynamic_string</a> * DS_insert_char </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structdynamic__string.html">dynamic_string</a> *&#160;</td>
+          <td class="paramname"><em>dest</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inserts char into dynamic string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dest</td><td>Dynamic string that will be modified </td></tr>
+    <tr><td class="paramname">src</td><td>Char to insert </td></tr>
+    <tr><td class="paramname">pos</td><td>Position in which char is placed </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>dynamic_string* </dd></dl>
+
+</div>
+</div>
 <a id="a99184dfdef2c60d8d641fd34247a4741" name="a99184dfdef2c60d8d641fd34247a4741"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a99184dfdef2c60d8d641fd34247a4741">&#9670;&nbsp;</a></span>DS_realloc()</h2>
 
@@ -440,7 +488,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>list_free</b> (<a cla
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>dynamic_string* Modified dynamic string </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>dynamic_string* : Modified dynamic string </dd></dl>
 
 </div>
 </div>
@@ -905,11 +953,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>list_free</b> (<a cla
     <tr><td class="paramname">str2</td><td>Second string containing number </td></tr>
     <tr><td class="paramname">len2</td><td>Length of the str2 </td></tr>
     <tr><td class="paramname">offset</td><td>Starts adding str2 to str1 from this postion from the right </td></tr>
-    <tr><td class="paramname">using_reversed</td><td>if true then result will be returned in reverse order </td></tr>
+    <tr><td class="paramname">using_reversed</td><td>if true then string must be in reverse order and result will be returned in reverse order </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>dynamic_string* : result of addition that is reversed if keep_reversed set to true </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>dynamic_string* : result of addition that is reversed if using_reversed set to true </dd></dl>
 
 </div>
 </div>
