@@ -127,6 +127,29 @@ START_TEST(sum_strings_default) {
 }
 END_TEST
 
+START_TEST(DS_append_char_default) {
+    dynamic_string *str = DS_init(NULL);
+    DS_append_char(str, 'a');
+    check_DS(str, "a");
+    DS_append_char(str, 'b');
+    check_DS(str, "ab");
+    DS_set_text(str, "rqwrfqrvqwqwvqwrbf");
+    DS_append_char(str, '1');
+    check_DS(str, "rqwrfqrvqwqwvqwrbf1");
+    DS_free(str);
+}
+END_TEST
+
+START_TEST(DS_insert_char_default) {
+    dynamic_string *str = DS_init("0");
+    DS_insert_char(str, '1', 0);
+    check_DS(str, "10");
+    DS_insert_char(str, '0', 1);
+    check_DS(str, "100");
+    DS_free(str);
+}
+END_TEST
+
 
 // Функция создания набора тестов.
 Suite *s21_string_suite(void) {
@@ -147,7 +170,8 @@ Suite *s21_string_suite(void) {
     tcase_add_test(DYNSTR, dynamic_string_set_char_out_of_bounds);
     tcase_add_test(DYNSTR, dynamic_string_set_text_default);
     tcase_add_test(DYNSTR, dynamic_string_set_text_const);
-
+    tcase_add_test(DYNSTR, DS_append_char_default);
+    tcase_add_test(DYNSTR, DS_insert_char_default);
     // Добавление теста в тестовый набор.
     suite_add_tcase(suite, LST);
     suite_add_tcase(suite, STRMULT);

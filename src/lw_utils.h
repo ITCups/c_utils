@@ -158,7 +158,7 @@ void DS_free(dynamic_string *ds);
 
     @param dest Dynamic string that will be modified
     @param src Raw text that will be used
-    @return dynamic_string* Modified dynamic string
+    @return dynamic_string* : Modified dynamic string
 */
 dynamic_string *DS_set_text(dynamic_string *dest, char *src);
 
@@ -177,8 +177,17 @@ dynamic_string *DS_set_char(dynamic_string *dest, const char src, const size_t p
     @param dest Dynamic string that will be modified
     @param src Char to append
     @return dynamic_string* : Modified dynamic string
- */
+*/
 dynamic_string *DS_append_char(dynamic_string *dest, const char src);
+/**
+    @brief Inserts char into dynamic string.
+    
+    @param dest  Dynamic string that will be modified
+    @param src Char to insert
+    @param pos Position in which char is placed
+    @return dynamic_string* 
+*/
+dynamic_string *DS_insert_char(dynamic_string *dest, const char src, const size_t pos);
 /**
     @brief Miltiplies two strings and returns result as dynamic string
 
@@ -186,7 +195,7 @@ dynamic_string *DS_append_char(dynamic_string *dest, const char src);
     @param str1 First string containing number
     @param str2 Second string containing number
     @return dynamic_string* : result_str
- */
+*/
 dynamic_string *multiply_strings(dynamic_string *result_str, const char *str1, const char *str2);
 
 /**
@@ -198,7 +207,7 @@ dynamic_string *multiply_strings(dynamic_string *result_str, const char *str1, c
     @param digit integer in range (-9 - 9)
     @param keep_reversed if true then result will be returned in reverse order
     @return dynamic_string* : result of multiplication that is reversed if keep_reversed set to true
- */
+*/
 dynamic_string *multiply_string_by_digit(dynamic_string *result, const char *str1, const size_t len, \
                                              int digit, bool keep_reversed);
 /**
@@ -212,7 +221,7 @@ dynamic_string *multiply_string_by_digit(dynamic_string *result, const char *str
     @param offset Starts adding str2 to str1 from this postion from the right
     @param using_reversed if true then string must be in reverse order and result will be returned in reverse order
     @return dynamic_string* : result of addition that is reversed if using_reversed set to true
- */
+*/
 dynamic_string *sum_strings(dynamic_string *result, const char *str1, const size_t len1,
                             const char *str2, const size_t len2, size_t offset, bool using_reversed);
 
