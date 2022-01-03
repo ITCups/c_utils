@@ -273,15 +273,23 @@ dynamic_string *DS_init(char *str) {
     return string;
 }
 
-dynamic_string *DS_insert_char(dynamic_string *dest, const char src, const size_t pos) {
-    if (dest && pos < dest->length) {
-        dest = DS_realloc(dest, dest->mem_size + sizeof(char));
-        dest->length++;
-        memmove(dest->string + pos + 1, dest->string + pos, dest->length - pos);
-        dest->string[pos] = src;
+dynamic_string *DS_insert_text(dynamic_string *dest, const char *src, const size_t pos) {
+    size_t src_len = strlen(src);
+    if (dest && src_len) {
+        size_t new_mem_size = src_len + dest->length + 1;
+        if (new_mem_size > dest->mem_size)
+            dest = DS_realloc(dest, new_mem_size);
+        memmove(dest->string + pos + src_len, dest->string + pos, dest->length - pos + 1);
+        memcpy(dest->string + pos, src, src_len);
+        dest->length = new_mem_size - 1;
     } else if (dest) {
-        fprintf(stderr, "ERROR (dynamic_string):[%s][%zu] trying to insert character '%c'" \
-        " at position '%zu' that is out of bounds.\n", dest->string, dest->length, src, pos);
+        if (!src_len) {
+            fprintf(stderr, "ERROR (dynamic_string):[%s][%zu] trying to insert string '%s'" \
+            " that is empty.\n", dest->string, dest->length, src);
+        } else {
+            fprintf(stderr, "ERROR (dynamic_string):[%s][%zu] trying to insert string '%s'" \
+            " at position '%zu' that is out of bounds.\n", dest->string, dest->length, src, pos);
+        }
     }
     return dest;
 }
