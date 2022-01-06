@@ -85,7 +85,7 @@ int list_add_from_file(list **first_node, char *filename) {
             size_t eol = strcspn(line, "\n");
             if (eol)
                 line[eol] = 0;
-            char *data = calloc(1, (sizeof(char) * eol) + 1);
+            char *data = calloc(1, eol + 1);
             if (data) {
                 strncpy(data, line, eol);
                 list_add(first_node, ((void*)data), true);
