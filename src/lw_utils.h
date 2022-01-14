@@ -85,6 +85,23 @@ list *list_get_last(const list *first_node);
 size_t list_get_length(const list *first_node);
 
 /**
+    @brief Returns !dynamic string containing bit representation of passed variable
+    
+    @param data Pointer containing variable to process
+    @param bits Amount of bits to process
+    @return char* : Dynamicly allocated string containing bit representation
+*/
+char *data_to_binary_string(const void *data, unsigned char bits);
+
+/**
+    @brief Prints to stdout bit representation of passed variable
+    
+    @param data Pointer containing variable to process
+    @param bits Amount of bits to process
+*/
+void print_binary(const void *data, unsigned char bits);
+
+/**
     @brief Gets length of the list
 
     @param command1 first command which output we compare to second command
