@@ -148,6 +148,20 @@ size_t list_get_length(const list *first_node) {
     return len;
 }
 
+char *data_to_binary_string(const void *data, unsigned char bits) {
+    char *bits_str = malloc(bits);
+    bits_str[bits] = 0;
+    for (int i = bits - 1; i >= 0 ; i--)
+        bits_str[bits - 1 - i] = *((unsigned long long*)data) & (1U << i) ? '1' : '0';
+    return bits_str;
+}
+
+void print_binary(const void *data, unsigned char bits) {
+    char *bits_str = data_to_binary_string(data, bits);
+    printf("[%s]\n", bits_str);
+    free(bits_str);
+}
+
 bool capp_assert(char *command1, char *command2, bool suppress_msg) {
     FILE *pipe1, *pipe2;
     bool error = false;

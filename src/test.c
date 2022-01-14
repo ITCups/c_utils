@@ -150,6 +150,17 @@ START_TEST(DS_insert_char_default) {
 }
 END_TEST
 
+START_TEST(print_binary_default) {
+    char d = CHAR_MAX;
+    print_binary(&d, 3);
+    int i = INT_MAX;
+    print_binary(&i, 32);
+    unsigned int ui = UINT_MAX;
+    print_binary(&ui, 32);
+    unsigned long long ull = UINT_MAX;
+    print_binary(&ull, sizeof(unsigned long long) * CHAR_BIT);
+}
+END_TEST
 
 // Функция создания набора тестов.
 Suite *s21_string_suite(void) {
@@ -172,11 +183,15 @@ Suite *s21_string_suite(void) {
     tcase_add_test(DYNSTR, dynamic_string_set_text_const);
     tcase_add_test(DYNSTR, DS_append_char_default);
     tcase_add_test(DYNSTR, DS_insert_char_default);
+    TCase *MISC = tcase_create("Misc");
+    tcase_add_test(MISC, print_binary_default);
+
     // Добавление теста в тестовый набор.
     suite_add_tcase(suite, LST);
     suite_add_tcase(suite, STRMULT);
     suite_add_tcase(suite, STRSUM);
     suite_add_tcase(suite, DYNSTR);
+    suite_add_tcase(suite, MISC);
 
     return suite;
 }
