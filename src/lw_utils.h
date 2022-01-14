@@ -197,14 +197,14 @@ dynamic_string *DS_set_char(dynamic_string *dest, const char src, const size_t p
 */
 dynamic_string *DS_append_char(dynamic_string *dest, const char src);
 /**
-    @brief Inserts char into dynamic string.
-    
+    @brief Inserts text into dynamic string.
+
     @param dest  Dynamic string that will be modified
-    @param src Char to insert
-    @param pos Position in which char is placed
+    @param src text to insert
+    @param pos Position in which text is placed
     @return dynamic_string* 
 */
-dynamic_string *DS_insert_char(dynamic_string *dest, const char src, const size_t pos);
+dynamic_string *DS_insert_text(dynamic_string *dest, const char *src, const size_t pos);
 /**
     @brief Miltiplies two strings and returns result as dynamic string
 

@@ -140,12 +140,22 @@ START_TEST(DS_append_char_default) {
 }
 END_TEST
 
-START_TEST(DS_insert_char_default) {
+START_TEST(DS_insert_text_default) {
     dynamic_string *str = DS_init("0");
-    DS_insert_char(str, '1', 0);
+    DS_insert_text(str, "1", 0);
     check_DS(str, "10");
-    DS_insert_char(str, '0', 1);
+    DS_insert_text(str, "0", 1);
     check_DS(str, "100");
+    DS_insert_text(str, "10", str->length);
+    check_DS(str, "10010");
+    DS_insert_text(str, "30", 1);
+    check_DS(str, "1300010");
+    DS_insert_text(str, "abc1241fwf3434", 0);
+    check_DS(str, "abc1241fwf34341300010");
+    DS_insert_text(str, "", 0);
+    check_DS(str, "abc1241fwf34341300010");
+    DS_insert_text(str, "123", 2);
+    check_DS(str, "ab123c1241fwf34341300010");
     DS_free(str);
 }
 END_TEST
@@ -182,10 +192,9 @@ Suite *s21_string_suite(void) {
     tcase_add_test(DYNSTR, dynamic_string_set_text_default);
     tcase_add_test(DYNSTR, dynamic_string_set_text_const);
     tcase_add_test(DYNSTR, DS_append_char_default);
-    tcase_add_test(DYNSTR, DS_insert_char_default);
+    tcase_add_test(DYNSTR, DS_insert_text_default);
     TCase *MISC = tcase_create("Misc");
     tcase_add_test(MISC, print_binary_default);
-
     // Добавление теста в тестовый набор.
     suite_add_tcase(suite, LST);
     suite_add_tcase(suite, STRMULT);
