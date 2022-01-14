@@ -149,7 +149,7 @@ size_t list_get_length(const list *first_node) {
 }
 
 char *data_to_binary_string(const void *data, unsigned char bits) {
-    char *bits_str = malloc(bits);
+    char *bits_str = malloc(bits + 1);
     bits_str[bits] = 0;
     for (int i = bits - 1; i >= 0 ; i--)
         bits_str[bits - 1 - i] = *((unsigned long long*)data) & (1U << i) ? '1' : '0';
