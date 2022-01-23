@@ -49,6 +49,30 @@ ssize_t getline(char **lineptr, size_t *n, FILE *stream) {
 }
 #endif
 
+#if defined(_WIN32)
+// taken from glibc/stdlib/rand_r.c
+int rand_r(unsigned int *seed) {
+    unsigned int next = *seed;
+    int result;
+
+    next *= 1103515245;
+    next += 12345;
+    result = (unsigned int) (next / 65536) % 2048;
+
+    next *= 1103515245;
+    next += 12345;
+    result <<= 10;
+    result ^= (unsigned int) (next / 65536) % 1024;
+
+    next *= 1103515245;
+    next += 12345;
+    result <<= 10;
+    result ^= (unsigned int) (next / 65536) % 1024;
+
+    *seed = next;
+    return result;
+}
+#endif
 
 list *new_node(void *data, bool is_dynamic) {
     list *new_node = malloc(sizeof(list));
