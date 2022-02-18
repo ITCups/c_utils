@@ -3,6 +3,7 @@
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
+#include <math.h>
 #include "lw_utils.h"
 
 
