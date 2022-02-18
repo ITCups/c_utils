@@ -249,4 +249,17 @@ dynamic_string *sum_strings(dynamic_string *result, const char *str1, const size
     @return int : Random int
 */
 int rand_r(unsigned int *seed);
+
+/**
+    @brief Get a random double
+    
+    @param seed Seed to generate numbers
+    @param min Minimum number
+    @param max Maximum number
+    @param min_dec_places Minimum places after dot
+    @param max_dec_places Maximum places after dot
+    @return double : Random double
+*/
+double get_random_double(unsigned int seed, unsigned long min, unsigned long max,
+                             unsigned int min_dec_places, unsigned int max_dec_places);
 #endif  // SRC_LW_UTILS_H_
