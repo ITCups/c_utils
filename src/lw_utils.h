@@ -12,12 +12,21 @@
 #define NULL ((void *)0)
 #endif
 
-#if defined(_WIN32) || defined(__linux__)
+#if ((defined(_WIN32) || defined(__linux__)))
 /// @brief Crossplatform plug for getline
 ssize_t getline(char **lineptr, size_t *n, FILE *stream);
+
+/**
+    @brief Thread safe random int generator (Shameless plug for Windows)
+    
+    @param seed Seed value that is used to generate number (changed internaly every call)
+    @return int : Random int
+*/
+int rand_r(unsigned int *seed);
 #endif
+
 #if defined(_WIN32)
-/// @brief Crossplatform plug for windows
+/// @brief Signed size_t (Crossplatform plug for windows)
 typedef intptr_t ssize_t;
 #endif
 
@@ -241,14 +250,6 @@ dynamic_string *multiply_string_by_digit(dynamic_string *result, const char *str
 */
 dynamic_string *sum_strings(dynamic_string *result, const char *str1, const size_t len1,
                             const char *str2, const size_t len2, size_t offset, bool using_reversed);
-
-/**
-    @brief Thread safe random int generator (Shameless plug for Windows)
-    
-    @param seed Seed value that is used to generate number (changed internaly every call)
-    @return int : Random int
-*/
-int rand_r(unsigned int *seed);
 
 /**
     @brief Get a random double

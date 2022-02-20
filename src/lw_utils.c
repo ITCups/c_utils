@@ -48,9 +48,7 @@ ssize_t getline(char **lineptr, size_t *n, FILE *stream) {
     (*lineptr)[pos] = '\0';
     return pos;
 }
-#endif
 
-#if defined(_WIN32)
 // taken from glibc/stdlib/rand_r.c
 int rand_r(unsigned int *seed) {
     unsigned int next = *seed;
