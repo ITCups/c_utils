@@ -502,10 +502,10 @@ dynamic_string *multiply_strings(dynamic_string *result_str, const char *str1, c
     return result_str;
 }
 
-double get_random_double(unsigned int seed, unsigned long min, unsigned long max,
+double get_random_double(unsigned int *seed, unsigned long min, unsigned long max,
                              unsigned int min_dec_places, unsigned int max_dec_places) {
-    double result = rand_r(&seed) % (max - min + 1) + min;
-    int decimal_places = rand_r(&seed) % (max_dec_places - min_dec_places) + min_dec_places;
+    double result = rand_r(seed) % (max - min + 1) + min;
+    int decimal_places = rand_r(seed) % (max_dec_places - min_dec_places) + min_dec_places;
     if (decimal_places < 0)
         fprintf(stderr, "ERROR(get_random_double): incorrect usage of the function(wrong decimal places)\n");
     result = result / pow(10, decimal_places);
